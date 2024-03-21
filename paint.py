@@ -10,20 +10,18 @@ Exercises
 """
 
 from turtle import *
-
 from freegames import vector
-
+import math
 
 def line(start, end):
-    """Draw line from start to end."""
+    "Draw line from start to end."
     up()
     goto(start.x, start.y)
     down()
     goto(end.x, end.y)
 
-
 def square(start, end):
-    """Draw square from start to end."""
+    "Draw square from start to end."
     up()
     goto(start.x, start.y)
     down()
@@ -35,24 +33,35 @@ def square(start, end):
 
     end_fill()
 
+def circle(radius):
+    "Draw circle with the given radius."
+    begin_fill()
+    circle(radius)
+    end_fill()
 
-def circle(start, end):
-    """Draw circle from start to end."""
-    pass  # TODO
-
-
-def rectangle(start, end):
-    """Draw rectangle from start to end."""
-    pass  # TODO
-
-
-def triangle(start, end):
-    """Draw triangle from start to end."""
-    pass  # TODO
-
+from turtle import *
 
 def tap(x, y):
-    """Store starting point or draw shape."""
+    "Draw a circle centered at the clicked point."
+    up()
+    goto(x, y - 50)  # Mover la tortuga al centro del círculo
+    down()
+    begin_fill()
+    circle(50)
+    end_fill()
+
+setup(420, 420, 370, 0)
+onscreenclick(tap)
+def rectangle(start, end):
+    "Draw rectangle from start to end."
+    pass  # TODO
+
+def triangle(start, end):
+    "Draw triangle from start to end."
+    pass  # TODO
+
+def tap(x, y):
+    "Store starting point or draw shape."
     start = state['start']
 
     if start is None:
@@ -60,14 +69,16 @@ def tap(x, y):
     else:
         shape = state['shape']
         end = vector(x, y)
-        shape(start, end)
+        if shape == circle:
+            radius = math.sqrt((end.x - start.x)**2 + (end.y - start.y)**2) / 2
+            shape(radius)
+        else:
+            shape(start, end)
         state['start'] = None
 
-
 def store(key, value):
-    """Store value in state at key."""
+    "Store value in state at key."
     state[key] = value
-
 
 state = {'start': None, 'shape': line}
 setup(420, 420, 370, 0)
